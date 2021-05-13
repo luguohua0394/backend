@@ -42,7 +42,8 @@ class Menu
         $currentTopMenu = $this->getCurrentTopMenu();
 
         $topMenus = $topMenus->map(function ($value, $key) use ($currentTopMenu) {
-            if ($currentTopMenu['id'] == $value['id']) {
+            //修复php 7.4 bug
+            if ($currentTopMenu && $currentTopMenu['id'] == $value['id']) {
                 $value['class'] = 'active';
             } else {
                 $value['class'] = '';
@@ -71,7 +72,7 @@ class Menu
     {
         $currentTopMenu=$this->getCurrentTopMenu();
 
-        $topMenuId = $currentTopMenu['id'];
+        $topMenuId = $currentTopMenu?$currentTopMenu['id']:null;
 
         return $this->dataMenu->subTree($this->allNodes, $topMenuId);
     }
