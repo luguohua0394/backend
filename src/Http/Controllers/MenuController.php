@@ -175,18 +175,22 @@ class MenuController extends Controller
 
         }
 
-        return Menu::form(function (Form $form) {
-            $form->display('id', 'ID');
+        $menuModel = config('admin.database.menu_model');
 
-            $form->select('parent_id', trans('admin.parent_id'))->options(Menu::selectOptions());
-            $form->text('title', trans('admin.title'))->rules('required');
-            $form->icon('icon', trans('admin.icon'))->default('fa-bars')->help($this->iconHelp());
-            $form->text('uri', trans('admin.uri'));
-            $form->multipleSelect('roles', trans('admin.roles'))->options(Role::all()->pluck('name', 'id'));
-            $form->radio('blank', '加载方式')->options(['0' => 'pjax', '1'=>'no-pjax' ])->default('0');
-            $form->display('created_at', trans('admin.created_at'));
-            $form->display('updated_at', trans('admin.updated_at'));
-        });
+        $form = new Form(new $menuModel());
+
+        $form->display('id', 'ID');
+
+        $form->select('parent_id', trans('admin.parent_id'))->options(Menu::selectOptions());
+        $form->text('title', trans('admin.title'))->rules('required');
+        $form->icon('icon', trans('admin.icon'))->default('fa-bars')->help($this->iconHelp());
+        $form->text('uri', trans('admin.uri'));
+        $form->multipleSelect('roles', trans('admin.roles'))->options(Role::all()->pluck('name', 'id'));
+        $form->radio('blank', '加载方式')->options(['0' => 'pjax', '1'=>'no-pjax' ])->default('0');
+        $form->display('created_at', trans('admin.created_at'));
+        $form->display('updated_at', trans('admin.updated_at'));
+
+        return $form;
     }
 
     /**
